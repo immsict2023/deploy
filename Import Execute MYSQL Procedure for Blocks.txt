@@ -1,0 +1,23 @@
+DELIMITER $$
+
+CREATE PROCEDURE GetBlockCount(
+    IN p_BlockType VARCHAR(10),
+    IN p_AY VARCHAR(9),
+    IN p_Sem VARCHAR(10),
+    IN p_ProgramNo INT,
+    OUT BlockCount INT
+)
+BEGIN
+    DECLARE countResult INT;
+
+    SELECT COUNT(*) + 1 INTO countResult
+    FROM block
+    WHERE BlockType = p_BlockType
+      AND AY = p_AY
+      AND Sem = p_Sem
+      AND ProgramNo = p_ProgramNo;
+
+    SET BlockCount = countResult;
+END$$
+
+DELIMITER ;

@@ -1,0 +1,41 @@
+DELIMITER $$
+
+CREATE DEFINER=`u169953597_immsict`@`127.0.0.1` PROCEDURE `generateBlockID`(
+    IN Program INT,
+    IN Sem VARCHAR(10),
+    IN AY VARCHAR(9),
+    IN BlockType VARCHAR(10),
+    IN Year VARCHAR(4),
+    IN ProCourse VARCHAR(100),
+    IN CurriculumNo INT
+)
+BEGIN
+    DECLARE y1 INT;
+    DECLARE y2 INT;
+    DECLARE firstchar VARCHAR(1);
+    DECLARE count INT;
+    DECLARE section VARCHAR(30);
+    
+    DECLARE BlockCount INT DEFAULT 0;
+    
+    -- Call another procedure to get BlockCount
+    CALL GetBlockCount(BlockType, AY, Sem, Program, Year, @BlockCount);
+    
+    SET count = @BlockCount;
+
+    -- Extract year parts from AY
+    SET y1 = SUBSTRING_INDEX(AY, '-', 1) - 2000;
+    SET y2 = SUBSTRING_INDEX(SUBSTRING_INDEX(AY, '-', 2), '-', -1) - 2000;
+
+    -- Generate the section value
+    SET section = CONCAT('AY', y1, '', y2, 'S', LEFT(Sem, 1), '-', UPPER(ProCourse), Year, '-', count);
+    
+    -- Set the section value in the session variable
+    SET @section = section;
+    
+    -- Return the section value
+    SELECT @section AS section;
+    
+END$$
+
+DELIMITER ;

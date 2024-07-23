@@ -1,0 +1,15 @@
+{
+  "short_name": "IMMS System",
+  "name": "School Management System",
+  "start_url": "http://localhost:3000/login",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "size": "100x100 100x100 100x100 100x100",
+      "type": "image/x-icon"
+    }
+  ]
+}
